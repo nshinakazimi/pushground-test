@@ -8,14 +8,14 @@ export const errorHandler = (error) => {
   console.log(error);
 
   if (!error) return;
-
-  const response = error.response;
-  const code = response.status;
   let errorMessage = "";
+  const response = error.response;
+  if (response) {
+    const code = response.status;
 
-  if (code === 404) errorMessage = error.message;
-  else if (code === 500) errorMessage = "An error occurred, try again later.";
-  else errorMessage = response.data.message;
-
+    if (code === 404) errorMessage = error.message;
+    else if (code === 500) errorMessage = "An error occurred, try again later.";
+    else errorMessage = response.data.message;
+  } else errorMessage = "Network Error, please check your connection!";
   message.error(errorMessage, 5);
 };
