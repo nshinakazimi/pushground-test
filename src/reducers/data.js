@@ -1,6 +1,7 @@
 const initialData = {
   events: null,
   audiences: null,
+  currentTableData: []
 };
 
 const data = (state = initialData, action) => {
@@ -14,6 +15,11 @@ const data = (state = initialData, action) => {
       return {
         ...state,
         events: action.data,
+      };    
+    case "SET_CURRENT_TABLEDATA":
+      return {
+        ...state,
+        currentTableData: action.data,
       };
     default:
       return state;

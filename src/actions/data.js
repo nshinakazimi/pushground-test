@@ -11,6 +11,10 @@ export const getAudiencesSuccess = (data) => {
   return { type: "GET_AUDIENCES", data };
 };
 
+export const setCurrentTableData = (data) => {
+  return { type: "SET_CURRENT_TABLEDATA", data }
+}
+
 export const getEvents = (callback) => {
   return async (dispatch) => {
     const client = Client();

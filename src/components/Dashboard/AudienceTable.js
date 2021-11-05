@@ -1,21 +1,12 @@
 import React, { useState, useRef, useContext, useEffect, createContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Table, Form, Input, message, Typography } from "antd";
 
-import { Table, Form, Input, message } from "antd";
+import { setCurrentTableData } from "../../actions/data";
 
 import TableColumn from "./TableColumn";
-import { TableWrapper } from "./styles";
 
-const rowSelection = {
-  type: "checkbox",
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, "selectedRows: ", selectedRows);
-  },
-  getCheckboxProps: (record) => ({
-    disabled: record.name === "Disabled User",
-    // Column configuration not to be checked
-    name: record.name,
-  }),
-};
+const { Title } = Typography;
 
 const EditableContext = createContext();
 
@@ -92,8 +83,21 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   return <td {...restProps}>{childNode}</td>;
 };
 
-const AudienceTable = ({ tableData }) => {
-  const [currentTableData, setCurrentTableData] = useState([]);
+const AudienceTable = () => {
+  const dispatch = useDispatch();
+  const currentTableData = useSelector((state) => state.data.currentTableData);
+
+  const rowSelection = {
+    type: "checkbox",
+    onChange: (selectedRowKeys) => {
+      const updatedTableData = currentTableData.map((item) => {
+        if (selectedRowKeys.length === 0) return { ...item, selected: false };
+        else if (selectedRowKeys.includes(item.key)) return { ...item, selected: true };
+        return item;
+      });
+      dispatch(setCurrentTableData(updatedTableData));
+    },
+  };
 
   const handleSave = (row) => {
     const duplicatedRow = currentTableData.filter((item) => item.name === row.name && item.key !== row.key);
@@ -105,7 +109,7 @@ const AudienceTable = ({ tableData }) => {
       const index = newData.findIndex((item) => row.key === item.key);
       const item = newData[index];
       newData.splice(index, 1, { ...item, ...row });
-      setCurrentTableData(newData);
+      dispatch(setCurrentTableData(newData));
     }
   };
   const handleFieldChange = (value, record, field) => {
@@ -113,22 +117,19 @@ const AudienceTable = ({ tableData }) => {
     const index = newData.findIndex((item) => record.key === item.key);
     const newRow = { ...record, [field]: value };
     newData.splice(index, 1, newRow);
-    setCurrentTableData(newData);
+    dispatch(setCurrentTableData(newData));
   };
-
-  useEffect(() => {
-    if (tableData && tableData.length) setCurrentTableData(tableData);
-  }, [tableData]);
 
   const columns = TableColumn({
     handleSave,
     handleFieldChange,
   });
+
   const components = { body: { row: EditableRow, cell: EditableCell } };
 
   return (
-    <TableWrapper>
-      <h2>Audiences</h2>
+    <>
+      <Title level={2}>Audiences</Title>
       <Table
         rowSelection={rowSelection}
         columns={columns}
@@ -136,7 +137,7 @@ const AudienceTable = ({ tableData }) => {
         pagination={false}
         components={components}
       />
-    </TableWrapper>
+    </>
   );
 };
 
