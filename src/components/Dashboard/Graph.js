@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import ReactEcharts from "echarts-for-react";
 import { Typography } from "antd";
+import Select from "rc-select";
 
 const { Title } = Typography;
 
@@ -81,14 +82,20 @@ const Graph = () => {
           let sumViewContent = 0,
             sumPageScroll = 0,
             sumConversion = 0;
+          // selectedRows.forEach((selected) => {
+          //   sumViewContent = sumViewContent + selected.events.includes("view_content") ? eventItem.audiences[selected.id].view_content : 0;
+          //   sumPageScroll = sumPageScroll + selected.events.includes("page_scroll") ? eventItem.audiences[selected.id].page_scroll: 0;
+          //   sumConversion = sumConversion + selected.events.includes("conversion") ? eventItem.audiences[selected.id].conversion: 0;
+          // });
           selectedRows.forEach((selected) => {
-            sumViewContent = sumViewContent + selected.events.includes("view_content") ? eventItem.audiences[selected.id].view_content : 0;
-            sumPageScroll = sumPageScroll + selected.events.includes("page_scroll") ? eventItem.audiences[selected.id].page_scroll: 0;
-            sumConversion = sumConversion + selected.events.includes("conversion") ? eventItem.audiences[selected.id].conversion: 0;
+            sumViewContent = sumViewContent + eventItem.audiences[selected.id].view_content;
+            sumPageScroll = sumPageScroll + eventItem.audiences[selected.id].page_scroll;
+            sumConversion = sumConversion + eventItem.audiences[selected.id].conversion;
           });
           viewContentData.push(sumViewContent);
           pageScrollData.push(sumPageScroll);
           conversionData.push(sumConversion);
+
         });
       } else {
         events.forEach((item) => {
@@ -126,6 +133,7 @@ const Graph = () => {
       ];
     };
     if (events) {
+
       const xData = events.map((item) => item.date);
       const seriesData = getSeries(currentTableData);
       let newChartOption = {
