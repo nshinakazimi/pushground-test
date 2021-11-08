@@ -91,9 +91,6 @@ const AudienceTable = () => {
     type: "checkbox",
     onChange: (selectedRowKeys) => {
       const updatedTableData = currentTableData.map((item) => {
-        // if (selectedRowKeys.length === 0) return { ...item, selected: false };
-        // else if (selectedRowKeys.includes(item.key)) return { ...item, selected: true };
-        // return item;
         if (selectedRowKeys.includes(item.key)) return { ...item, selected: true };
         else return { ...item, selected: false }
       });

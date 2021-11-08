@@ -82,11 +82,6 @@ const Graph = () => {
           let sumViewContent = 0,
             sumPageScroll = 0,
             sumConversion = 0;
-          // selectedRows.forEach((selected) => {
-          //   sumViewContent = sumViewContent + selected.events.includes("view_content") ? eventItem.audiences[selected.id].view_content : 0;
-          //   sumPageScroll = sumPageScroll + selected.events.includes("page_scroll") ? eventItem.audiences[selected.id].page_scroll: 0;
-          //   sumConversion = sumConversion + selected.events.includes("conversion") ? eventItem.audiences[selected.id].conversion: 0;
-          // });
           selectedRows.forEach((selected) => {
             sumViewContent = sumViewContent + eventItem.audiences[selected.id].view_content;
             sumPageScroll = sumPageScroll + eventItem.audiences[selected.id].page_scroll;
