@@ -48,7 +48,7 @@ const TableColumn = ({ handleSave, handleFieldChange }) => {
             options={eventOptions}
             defaultValue={record.events}
             onChange={(value) => handleFieldChange(value, record, "events")}
-            style={{ width: '50%' }}
+            style={{ width: '60%' }}
           />
         );
       },

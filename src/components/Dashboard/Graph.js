@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 import ReactEcharts from "echarts-for-react";
 import { Typography } from "antd";
-import Select from "rc-select";
 
 const { Title } = Typography;
 
