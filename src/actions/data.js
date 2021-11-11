@@ -1,7 +1,8 @@
 import Client from "../config/api";
 import { errorHandler } from "../utils";
 
-const endpoint = process.env.REACT_APP_ENDPOINT;
+// const endpoint = process.env.REACT_APP_ENDPOINT;
+const endpoint = "https://api.pushground.com/candidates/test";
 
 export const getEventsSuccess = (data) => {
   return { type: "GET_EVENTS", data };
