@@ -74,28 +74,44 @@ const Graph = () => {
       let viewContentData = [],
         pageScrollData = [],
         conversionData = [];
-      const selectedRows = tableData.filter((item) => item.selected && item.active);
+      const selectedRows = tableData.filter(
+        (item) => item.selected && item.active
+      );
 
       if (selectedRows.length > 0) {
         events.forEach((eventItem) => {
           let sumViewContent = 0,
-            sumPageScroll = 0,
-            sumConversion = 0;
+          sumPageScroll = 0,
+          sumConversion = 0;
           selectedRows.forEach((selected) => {
-            sumViewContent = sumViewContent + eventItem.audiences[selected.id].view_content;
-            sumPageScroll = sumPageScroll + eventItem.audiences[selected.id].page_scroll;
-            sumConversion = sumConversion + eventItem.audiences[selected.id].conversion;
+            sumViewContent =
+              sumViewContent + ((selected.events.includes("view_content"))
+                ? eventItem.audiences[selected.id].view_content
+                : 0);
+            sumPageScroll =
+              sumPageScroll + (selected.events.includes("page_scroll")
+                ? eventItem.audiences[selected.id].page_scroll
+                : 0);
+            sumConversion =
+              sumConversion + (selected.events.includes("conversion")
+                ? eventItem.audiences[selected.id].conversion
+                : 0);
           });
           viewContentData.push(sumViewContent);
           pageScrollData.push(sumPageScroll);
           conversionData.push(sumConversion);
-
         });
       } else {
         events.forEach((item) => {
-          viewContentData.push(item.totals.view_content ? item.totals.view_content : 0);
-          pageScrollData.push(item.totals.page_scroll ? item.totals.page_scroll : 0);
-          conversionData.push(item.totals.conversion ? item.totals.conversion : 0);
+          viewContentData.push(
+            item.totals.view_content ? item.totals.view_content : 0
+          );
+          pageScrollData.push(
+            item.totals.page_scroll ? item.totals.page_scroll : 0
+          );
+          conversionData.push(
+            item.totals.conversion ? item.totals.conversion : 0
+          );
         });
       }
       return [
@@ -127,7 +143,6 @@ const Graph = () => {
       ];
     };
     if (events) {
-
       const xData = events.map((item) => item.date);
       const seriesData = getSeries(currentTableData);
       let newChartOption = {
