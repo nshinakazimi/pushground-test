@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout, Menu, Dropdown, Avatar, Breadcrumb, message } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
@@ -11,16 +12,18 @@ import Graph from "../../components/Dashboard/Graph";
 
 import Spinner from "../../components/Common/Spinner";
 
-import { HeaderContainer, ContentContainer, FooterContainer, Logo, ContentWrapper } from "./styles";
+import { HeaderContainer, ContentContainer, FooterContainer, Logo, ContentWrapper, NavWrapper } from "./styles";
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const audiences = useSelector((state) => state.data.audiences);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const onClick = ({ key }) => {
     if (key === "logout") dispatch(logout());
+    else history.push(`/${key}`);
   };
 
   const getTableData = (list) => {
@@ -56,9 +59,15 @@ const Dashboard = () => {
     <Layout>
       <HeaderContainer>
         <Logo src="https://app.pushground.com/assets/pushground.png" alt="logo" />
-        <Dropdown overlay={menu}>
-          <Avatar icon={<UserOutlined />} size={36} />
-        </Dropdown>
+        <NavWrapper>
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["dashboard"]} style={{ width: 500 }} onClick={onClick}>
+            <Menu.Item key="dashboard">Dashboard</Menu.Item>
+            <Menu.Item key="example">Example</Menu.Item>
+          </Menu>
+          <Dropdown overlay={menu}>
+            <Avatar icon={<UserOutlined />} size={36} />
+          </Dropdown>
+        </NavWrapper>
       </HeaderContainer>
       <ContentContainer>
         <Breadcrumb style={{ margin: "16px 0" }}>

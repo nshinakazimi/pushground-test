@@ -6,6 +6,7 @@ import { isLoggedIn } from "./actions/user";
 
 import Login from "./containers/Login";
 import Dashboard from "./containers/Dashboard";
+import EmptyPage from "./components/Common/emptyPage";
 
 import "antd/dist/antd.css";
 
@@ -28,6 +29,7 @@ const App = () => {
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/" component={Login} />
+        <Route exact path="/example" component={EmptyPage} />
       </div>
     </Router>
   );

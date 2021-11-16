@@ -7,6 +7,10 @@ export const HeaderContainer = styled(Header)`
   position: fixed;
   z-index: 1;
   width: 100%;
+  align-items: center;
+`;
+
+export const NavWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
