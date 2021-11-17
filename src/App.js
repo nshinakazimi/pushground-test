@@ -28,8 +28,10 @@ const App = () => {
       <div className="App">
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/" component={Login} />
         <Route exact path="/example" component={EmptyPage} />
+        <Route path="*">
+          <Redirect to="/login" />
+        </Route>
       </div>
     </Router>
   );
